@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
 from mlxtend.frequent_patterns import association_rules, apriori # type: ignore
 
@@ -52,11 +51,14 @@ rules_s1 = association_rules(frequent_itemsets_s1, metric = "lift", min_threshol
 
 #Heat map for the whole dataset
 
-st.subheader('''Recommended Items''')
+st.subheader('''Recommended Items from the dataset''')
 heatmap_data = rules.pivot(index='antecedents', columns='consequents', values='lift')
 fig, ax = plt.subplots()
-sns.heatmap(heatmap_data, annot=True, cmap='coolwarm', fmt=".2f", ax=ax)
-st.write(fig)
+ax.pcolor(heatmap_data)
+ax.set_xlabel('Consequents')
+ax.set_ylabel('Antecedents')
+st.pyplot(fig)
+
 
 #options of Lift
 speed_options = ['1','2','3','4','5','6','7','8','9','10']
